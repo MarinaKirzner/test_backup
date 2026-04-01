@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:03:39.255Z",
+  "updatedAt": "2026-04-01T14:04:28.888Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -163,13 +163,12 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
-          "mode": "url",
-          "value": "https://api.github.com/repos/MarinaKirzner/",
-          "__regex": "https:\\/\\/(?:[^/]+)\\/([-_0-9a-zA-Z]+)"
+          "value": "https://github.com/MarinaKirzner/",
+          "mode": "url"
         },
         "repository": {
           "__rl": true,
-          "value": "https://api.github.com/repos/MarinaKirzner/test_backup/contents/",
+          "value": "https://github.com/MarinaKirzner/test_backup/",
           "mode": "url"
         },
         "filePath": "={{ $json.content.path.replaceAll(':', '%') }}",
