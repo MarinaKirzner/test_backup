@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T13:35:07.869Z",
+  "updatedAt": "2026-04-01T13:35:43.016Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -734,20 +734,8 @@
     },
     "If2": {
       "main": [
-        [
-          {
-            "node": "Edit a file2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Create a file",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [],
+        []
       ]
     },
     "Get many workflows2": {
