@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T13:51:50.057Z",
+  "updatedAt": "2026-04-01T13:55:07.464Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -163,15 +163,13 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
-          "value": "https://github.com/MarinaKirzner/test_backup/",
+          "value": "https://api.github.com/repos/MarinaKirzner/test_backup/",
           "mode": "url"
         },
         "repository": {
           "__rl": true,
           "value": "test_backup",
-          "mode": "list",
-          "cachedResultName": "test_backup",
-          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+          "mode": "list"
         },
         "filePath": "={{ $json.commit.url }}",
         "fileContent": "={{ $json.commit }}",
