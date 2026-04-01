@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T13:56:10.092Z",
+  "updatedAt": "2026-04-01T13:57:06.596Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -171,7 +171,7 @@
           "value": "test_backup",
           "mode": "list"
         },
-        "filePath": "={{ $json.commit.url }}",
+        "filePath": "={{ $json.content.url }}",
         "fileContent": "={{ $json.commit }}",
         "commitMessage": "=Update workflow {{ $json.commit.message }}"
       },
