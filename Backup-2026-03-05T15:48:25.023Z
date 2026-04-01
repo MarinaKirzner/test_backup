@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:24:27.475Z",
+  "updatedAt": "2026-04-01T14:25:21.400Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -303,20 +303,6 @@
       ],
       "id": "a1210590-1070-44c2-96fa-3e011d0d1cf3",
       "name": "Code in n8n"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "={{ $json.content.name }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        1696,
-        320
-      ],
-      "id": "3c410946-ecb0-4b54-8409-f2be776b7cde",
-      "name": "Split Out"
     }
   ],
   "connections": {
@@ -449,13 +435,7 @@
     },
     "HTTP Request1": {
       "main": [
-        [
-          {
-            "node": "Split Out",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   }
