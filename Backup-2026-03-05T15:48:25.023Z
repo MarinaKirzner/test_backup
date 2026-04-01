@@ -1,1 +1,774 @@
-{"updatedAt":"2026-03-05T15:48:25.023Z","createdAt":"2026-03-05T12:01:10.260Z","id":"Y1YvfTbhpAt2ijVB","name":"Backup","active":false,"isArchived":false,"nodes":[{"parameters":{"operation":"formatDate","options":{}},"type":"n8n-nodes-base.dateTime","typeVersion":2,"position":[400,0],"id":"838568df-5435-4324-9409-cf31849f9e29","name":"Formate Date"},{"parameters":{},"type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,0],"id":"aca6ed65-af12-41d1-8b7d-b120908d669e","name":"Execute workflow"},{"parameters":{"assignments":{"assignments":[{"id":"2c9f1c75-5a77-423d-868a-095244969934","name":"formattedDate","value":"={{ $json.formattedDate }}","type":"string"}]},"options":{}},"type":"n8n-nodes-base.set","typeVersion":3.4,"position":[592,0],"id":"6bfedaaf-2ae0-46c8-806c-e162f7bf866e","name":"Edit Fields"},{"parameters":{"options":{}},"type":"n8n-nodes-base.dateTime","typeVersion":2,"position":[208,0],"id":"68059e2b-3447-4d8d-a4f4-634d73a04093","name":"Date & Time"},{"parameters":{"authentication":"oAuth2","resource":"file","operation":"list","owner":{"__rl":true,"value":"https://github.com/MarinaKirzner/test_backup","mode":"url"},"repository":{"__rl":true,"value":"test_backup","mode":"list","cachedResultName":"test_backup","cachedResultUrl":"https://github.com/MarinaKirzner/test_backup"}},"type":"n8n-nodes-base.github","typeVersion":1.1,"position":[800,0],"id":"d96e6d5b-a68d-42cb-9784-63784ab6cd9d","name":"List files","webhookId":"a3984118-f232-4eee-9975-b1998cba2bb9","credentials":{"githubOAuth2Api":{"id":"GMJn12jwW1jY9QXW","name":"GitHub account"}}},{"parameters":{"fieldsToAggregate":{"fieldToAggregate":[{"fieldToAggregate":"name"}]},"options":{}},"type":"n8n-nodes-base.aggregate","typeVersion":1,"position":[1024,0],"id":"48ae3627-8a68-48a0-82ce-e3384a20682b","name":"Aggregate"},{"parameters":{"operation":"toJson","mode":"each","binaryPropertyName":"=data","options":{"fileName":"={{ $json.name }}-{{ $json.updatedAt }}"}},"type":"n8n-nodes-base.convertToFile","typeVersion":1.1,"position":[272,320],"id":"409dc802-4d87-4b45-9b60-efd8b717fdc7","name":"Convert to File"},{"parameters":{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"loose","version":3},"conditions":[{"id":"eba01505-8f94-48be-a96e-28b4fca57a59","leftValue":"={{ $binary.data.fileName.split() }}","rightValue":"={{ $binary.data.fileName }}","operator":{"type":"array","operation":"notExists","singleValue":true}}],"combinator":"and"},"looseTypeValidation":true,"options":{}},"type":"n8n-nodes-base.if","typeVersion":2.3,"position":[704,320],"id":"39654370-7901-4a29-b77f-72cd5d819245","name":"If"},{"parameters":{"includeOtherFields":true,"options":{}},"type":"n8n-nodes-base.set","typeVersion":3.4,"position":[512,320],"id":"be8c7141-2a1e-434c-98ba-854195e4d81b","name":"Edit Fields1"},{"parameters":{"authentication":"oAuth2","resource":"file","operation":"edit","owner":{"__rl":true,"value":"https://github.com/MarinaKirzner/test_backup","mode":"url"},"repository":{"__rl":true,"value":"test_backup","mode":"list","cachedResultName":"test_backup","cachedResultUrl":"https://github.com/MarinaKirzner/test_backup"},"filePath":"={{ $binary.data.fileName }}","binaryData":true,"commitMessage":"=backUp"},"type":"n8n-nodes-base.github","typeVersion":1.1,"position":[912,224],"id":"82255461-38a8-4f04-b625-71884b8be4ab","name":"Edit a file","webhookId":"0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588","credentials":{"githubOAuth2Api":{"id":"GMJn12jwW1jY9QXW","name":"GitHub account"}}},{"parameters":{"authentication":"oAuth2","resource":"file","owner":{"__rl":true,"value":"https://github.com/MarinaKirzner/test_backup","mode":"url"},"repository":{"__rl":true,"value":"test_backup","mode":"list","cachedResultName":"test_backup","cachedResultUrl":"https://github.com/MarinaKirzner/test_backup"},"filePath":"={{ $binary.data.fileName }}","binaryData":true,"commitMessage":"=backUp"},"type":"n8n-nodes-base.github","typeVersion":1.1,"position":[912,416],"id":"24a82a61-0ce3-4d17-abac-a61a6a0b236f","name":"Create a file","webhookId":"c98a77b5-5794-46ef-b2cd-875004cfa71e","credentials":{"githubOAuth2Api":{"id":"GMJn12jwW1jY9QXW","name":"GitHub account"}}},{"parameters":{"filters":{},"requestOptions":{}},"type":"n8n-nodes-base.n8n","typeVersion":1,"position":[1248,0],"id":"5cc65226-1928-42f4-82ee-0b9a38bdc215","name":"Get many workflows","credentials":{"n8nApi":{"id":"p1W0A0bX6jUGE2IO","name":"n8n account"}}}],"connections":{"Execute workflow":{"main":[[{"node":"Date & Time","type":"main","index":0}]]},"Formate Date":{"main":[[{"node":"Edit Fields","type":"main","index":0}]]},"Edit Fields":{"main":[[{"node":"List files","type":"main","index":0}]]},"Date & Time":{"main":[[{"node":"Formate Date","type":"main","index":0}]]},"List files":{"main":[[{"node":"Aggregate","type":"main","index":0}]]},"Aggregate":{"main":[[{"node":"Get many workflows","type":"main","index":0}]]},"Convert to File":{"main":[[{"node":"Edit Fields1","type":"main","index":0}]]},"If":{"main":[[{"node":"Edit a file","type":"main","index":0}],[{"node":"Create a file","type":"main","index":0}]]},"Edit Fields1":{"main":[[{"node":"If","type":"main","index":0}]]},"Get many workflows":{"main":[[{"node":"Convert to File","type":"main","index":0}]]}},"settings":{"executionOrder":"v1","binaryMode":"separate","availableInMCP":false},"staticData":null,"meta":null,"pinData":{"Execute workflow":[{"json":{},"pairedItem":{"item":0}}]},"versionId":"5e52b000-47ca-4875-b5d6-3becd67eab8c","activeVersionId":null,"triggerCount":0,"shared":[{"updatedAt":"2026-03-05T12:01:10.260Z","createdAt":"2026-03-05T12:01:10.260Z","role":"workflow:owner","workflowId":"Y1YvfTbhpAt2ijVB","projectId":"MUlQoPzbJvNgv0rr"}],"activeVersion":null,"tags":[]}
+{
+  "id": "k5dRU8y11wTqoI8F",
+  "name": "Backup",
+  "active": false,
+  "isArchived": false,
+  "updatedAt": "2026-04-01T10:23:12.069Z",
+  "createdAt": "2026-03-25T15:04:12.423Z",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        336
+      ],
+      "id": "faf373f1-db7e-4ac9-afc0-ebeeb8f56a6e",
+      "name": "Execute workflow"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        400,
+        800
+      ],
+      "id": "0aef7736-956c-4652-ba43-295f23373f5a",
+      "name": "Formate Date1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2c9f1c75-5a77-423d-868a-095244969934",
+              "name": "formattedDate",
+              "value": "={{ $json.formattedDate }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        800
+      ],
+      "id": "eda0c5ed-304d-4e94-9b55-1668cbf980d5",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        208,
+        800
+      ],
+      "id": "a08c0d09-14ad-4b69-a6ea-979545acda99",
+      "name": "Date & Time1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        800
+      ],
+      "id": "9ca57821-991b-403e-9af5-dd0ff0a2a518",
+      "name": "List files1",
+      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        800
+      ],
+      "id": "54ae6a23-294b-4a0f-9e41-fbad74772325",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "binaryPropertyName": "={{ $json.name }}-{{ $json.updatedAt }}",
+        "options": {
+          "fileName": "={{ $json.name }}-{{ $json.updatedAt }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        1120
+      ],
+      "id": "3767cbb0-ec53-46b0-899a-444edc9ca582",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "eba01505-8f94-48be-a96e-28b4fca57a59",
+              "leftValue": "={{ $binary.data.fileName }}",
+              "rightValue": "={{ $binary.data.fileName }}",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        704,
+        1120
+      ],
+      "id": "f042ee1c-af1f-4d27-b85e-779be88fc9de",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a9f7f7b8-2098-4803-a832-9590d46be8b0",
+              "name": "fileExists",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        1120
+      ],
+      "id": "915cfd71-041c-4083-b70f-60935aacf16e",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        },
+        "filePath": "={{ $binary.data.fileName }}",
+        "binaryData": true,
+        "commitMessage": "=backUp"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        912,
+        1024
+      ],
+      "id": "95c72ad1-b584-495f-8223-359fb2e45305",
+      "name": "Edit a file1",
+      "webhookId": "0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        },
+        "filePath": "={{ $binary.data.fileName }}",
+        "binaryData": true,
+        "commitMessage": "=backUp"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        912,
+        1216
+      ],
+      "id": "ede8875b-e8a4-4dbc-b2b9-04e800f7afc8",
+      "name": "Create a file1",
+      "webhookId": "c98a77b5-5794-46ef-b2cd-875004cfa71e"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        800
+      ],
+      "id": "a99301be-e4ac-4618-85e5-d5a262c11eff",
+      "name": "Get many workflows1"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        352,
+        336
+      ],
+      "id": "57990734-9d87-4366-95ae-e65eec525f66",
+      "name": "Formate Date2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        160,
+        336
+      ],
+      "id": "dafacb4b-c3a9-4b96-9cab-e8a45ae9afa3",
+      "name": "Date & Time2"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        240
+      ],
+      "id": "5c083f3f-0c85-4c5a-966b-c752fafe3fb7",
+      "name": "List files2",
+      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8e26a27a-48ef-40fd-b2ab-af112ced1c71",
+              "leftValue": "={{ $json.sha }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1728,
+        336
+      ],
+      "id": "0afeb133-daeb-4738-b041-3cf301ea5fcd",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        576,
+        432
+      ],
+      "id": "95d97e2c-6f40-47b5-8038-98dbeb9b567e",
+      "name": "Get many workflows2"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "compareKey",
+              "field2": "compareKey"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1056,
+        320
+      ],
+      "id": "5961c5bd-37f2-45ce-9ccf-7b949d0547b6",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  // Извлекаем только имя без даты\n  let compareKey = item.json.name;\n  if (compareKey && compareKey.includes('-20')) {\n    compareKey = compareKey.split('-')[0]; // \"Backup\"\n  }\n  \n  return {\n    json: {\n      ...item.json,\n      compareKey: compareKey  // теперь \"Backup\"\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        240
+      ],
+      "id": "f91a9ed6-3b50-422a-b5f6-5b8c6e1bb7cf",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  // Используем имя workflow\n  const compareKey = item.json.name; // \"Backup\"\n  \n  return {\n    json: {\n      ...item.json,\n      compareKey: compareKey,  // \"Backup\"\n      source: 'n8n'\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        432
+      ],
+      "id": "a1210590-1070-44c2-96fa-3e011d0d1cf3",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup/",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        },
+        "filePath": "={{ $json.path }}",
+        "commitMessage": "=Update workflow {{ $json.name }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        240
+      ],
+      "id": "d522b9ae-4309-4c31-9928-309819154e4d",
+      "name": "Edit a file2",
+      "webhookId": "0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "=Authorization",
+              "value": "Bearer [REDACTED_GITHUB_TOKEN]"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.github.v3+json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": \"{{ $json.message }}\",\n  \"content\": \"{{ $json.content }}\",\n  \"sha\": \"{{ $json.sha }}\",\n  \"branch\": \"main\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1520,
+        160
+      ],
+      "id": "1e3f6da7-2cf9-4f53-9cb2-ad47e2bc0624",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        },
+        "filePath": "={{ $binary.data.fileName }}",
+        "binaryData": true,
+        "commitMessage": "=backUp"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        416
+      ],
+      "id": "068e0d62-3790-4c78-b6f9-146ee5b2a024",
+      "name": "Create a file",
+      "webhookId": "c98a77b5-5794-46ef-b2cd-875004cfa71e"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\n// Кодируем path для URL\nconst encodedPath = encodeURIComponent(item.path);\n// \"Backup-2026-03-05T15:48:25.023Z\" -> \"Backup-2026-03-05T15%3A48%3A25.023Z\"\n\nconst cleanUrl = `https://api.github.com/repos/MarinaKirzner/test_backup/contents/${encodedPath}`;\n\n// Подготавливаем данные\nconst workflowData = {\n    id: item.id,\n    name: item.name,\n    active: item.active,\n    isArchived: item.isArchived,\n    updatedAt: item.updatedAt,\n    createdAt: item.createdAt,\n    nodes: item.nodes,\n    connections: item.connections\n};\n\nconst jsonString = JSON.stringify(workflowData, null, 2);\nconst base64Content = Buffer.from(jsonString).toString('base64');\n\nreturn [{\n    json: {\n        url: cleanUrl,\n        message: `Update workflow ${item.name}`,\n        content: base64Content,\n        sha: item.sha,\n        branch: 'main'\n    }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        160
+      ],
+      "id": "9c7fe7ae-2c6a-4629-a507-458013053665",
+      "name": "Code in JavaScript2"
+    }
+  ],
+  "connections": {
+    "Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Date & Time2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formate Date1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "List files1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Formate Date1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List files1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Get many workflows1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit a file1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many workflows1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formate Date2": {
+      "main": [
+        [
+          {
+            "node": "Get many workflows2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "List files2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time2": {
+      "main": [
+        [
+          {
+            "node": "Formate Date2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List files2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Edit a file2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many workflows2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit a file2": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
