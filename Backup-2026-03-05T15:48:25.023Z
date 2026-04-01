@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T13:45:45.030Z",
+  "updatedAt": "2026-04-01T13:46:10.542Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -179,8 +179,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2000,
-        240
+        1968,
+        160
       ],
       "id": "d522b9ae-4309-4c31-9928-309819154e4d",
       "name": "Edit a file2",
@@ -354,7 +354,13 @@
     },
     "If2": {
       "main": [
-        [],
+        [
+          {
+            "node": "Edit a file2",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
