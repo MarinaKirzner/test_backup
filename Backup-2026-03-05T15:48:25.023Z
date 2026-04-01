@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:22:16.191Z",
+  "updatedAt": "2026-04-01T14:22:59.844Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -107,8 +107,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1696,
-        320
+        1840,
+        304
       ],
       "id": "0afeb133-daeb-4738-b041-3cf301ea5fcd",
       "name": "If2"
@@ -182,8 +182,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1968,
-        160
+        2112,
+        144
       ],
       "id": "d522b9ae-4309-4c31-9928-309819154e4d",
       "name": "Edit a file2",
@@ -218,8 +218,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1984,
-        400
+        2128,
+        384
       ],
       "id": "068e0d62-3790-4c78-b6f9-146ee5b2a024",
       "name": "Create a file",
@@ -435,13 +435,7 @@
     },
     "HTTP Request1": {
       "main": [
-        [
-          {
-            "node": "If2",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   }
