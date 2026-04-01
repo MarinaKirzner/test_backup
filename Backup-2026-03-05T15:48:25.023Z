@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T13:34:43.908Z",
+  "updatedAt": "2026-04-01T13:35:07.869Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -468,36 +468,6 @@
     },
     {
       "parameters": {
-        "method": "PUT",
-        "url": "={{ $json.url }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "githubOAuth2Api",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"message\": \"{{ $json.message }}\",\n  \"content\": \"{{ $json.content }}\",\n  \"sha\": \"{{ $json.sha }}\",\n  \"branch\": \"{{ $json.branch }}\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        1520,
-        160
-      ],
-      "id": "1e3f6da7-2cf9-4f53-9cb2-ad47e2bc0624",
-      "name": "HTTP Request",
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "mjCf6diS5cDUHsHs",
-          "name": "GitHub account"
-        },
-        "httpMultipleHeadersAuth": {
-          "id": "oZrSE4MgNK3sKXlJ",
-          "name": "Multiple Headers Auth account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "resource": "file",
         "owner": {
@@ -807,17 +777,6 @@
         []
       ]
     },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "If2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Code in JavaScript2": {
       "main": [
         [
@@ -847,6 +806,17 @@
             "node": "Merge1",
             "type": "main",
             "index": 1
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
