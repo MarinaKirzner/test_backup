@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T13:35:43.016Z",
+  "updatedAt": "2026-04-01T13:37:58.577Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -364,7 +364,7 @@
           "conditions": [
             {
               "id": "8e26a27a-48ef-40fd-b2ab-af112ced1c71",
-              "leftValue": "={{ $json.sha }}",
+              "leftValue": "={{ $json.content.sha }}",
               "rightValue": "",
               "operator": {
                 "type": "string",
@@ -381,8 +381,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1728,
-        336
+        1696,
+        320
       ],
       "id": "0afeb133-daeb-4738-b041-3cf301ea5fcd",
       "name": "If2"
@@ -447,13 +447,13 @@
           "cachedResultName": "test_backup",
           "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
         },
-        "filePath": "={{ $json.path }}",
-        "commitMessage": "=Update workflow {{ $json.name }}"
+        "filePath": "={{ $json.content.path }}",
+        "commitMessage": "=Update workflow {{ $json.content.name }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1984,
+        1920,
         240
       ],
       "id": "d522b9ae-4309-4c31-9928-309819154e4d",
@@ -489,7 +489,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1984,
+        1920,
         416
       ],
       "id": "068e0d62-3790-4c78-b6f9-146ee5b2a024",
@@ -509,8 +509,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1312,
-        160
+        1264,
+        320
       ],
       "id": "9c7fe7ae-2c6a-4629-a507-458013053665",
       "name": "Code in JavaScript2"
@@ -530,7 +530,7 @@
       "typeVersion": 4.4,
       "position": [
         1488,
-        400
+        320
       ],
       "id": "40e02dcf-d34e-41e8-9573-3c35e3216360",
       "name": "HTTP Request1",
@@ -734,8 +734,20 @@
     },
     "If2": {
       "main": [
-        [],
-        []
+        [
+          {
+            "node": "Edit a file2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Get many workflows2": {
