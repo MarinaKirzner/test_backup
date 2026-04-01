@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:00:33.786Z",
+  "updatedAt": "2026-04-01T14:02:32.975Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -163,8 +163,9 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
+          "mode": "url",
           "value": "https://api.github.com/repos/MarinaKirzner/",
-          "mode": "url"
+          "__regex": "https:\\/\\/(?:[^/]+)\\/([-_0-9a-zA-Z]+)"
         },
         "repository": {
           "__rl": true,
