@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T10:23:12.069Z",
+  "updatedAt": "2026-04-01T13:34:16.427Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -93,7 +93,13 @@
       ],
       "id": "9ca57821-991b-403e-9af5-dd0ff0a2a518",
       "name": "List files1",
-      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9"
+      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -221,7 +227,13 @@
       ],
       "id": "95c72ad1-b584-495f-8223-359fb2e45305",
       "name": "Edit a file1",
-      "webhookId": "0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588"
+      "webhookId": "0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -251,7 +263,13 @@
       ],
       "id": "ede8875b-e8a4-4dbc-b2b9-04e800f7afc8",
       "name": "Create a file1",
-      "webhookId": "c98a77b5-5794-46ef-b2cd-875004cfa71e"
+      "webhookId": "c98a77b5-5794-46ef-b2cd-875004cfa71e",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -265,7 +283,13 @@
         800
       ],
       "id": "a99301be-e4ac-4618-85e5-d5a262c11eff",
-      "name": "Get many workflows1"
+      "name": "Get many workflows1",
+      "credentials": {
+        "n8nApi": {
+          "id": "J9VLL8whtAetxRsk",
+          "name": "n8n account"
+        }
+      }
     },
     {
       "parameters": {
@@ -320,7 +344,13 @@
       ],
       "id": "5c083f3f-0c85-4c5a-966b-c752fafe3fb7",
       "name": "List files2",
-      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9"
+      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -369,7 +399,13 @@
         432
       ],
       "id": "95d97e2c-6f40-47b5-8038-98dbeb9b567e",
-      "name": "Get many workflows2"
+      "name": "Get many workflows2",
+      "credentials": {
+        "n8nApi": {
+          "id": "J9VLL8whtAetxRsk",
+          "name": "n8n account"
+        }
+      }
     },
     {
       "parameters": {
@@ -393,32 +429,6 @@
       ],
       "id": "5961c5bd-37f2-45ce-9ccf-7b949d0547b6",
       "name": "Merge1"
-    },
-    {
-      "parameters": {
-        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  // Извлекаем только имя без даты\n  let compareKey = item.json.name;\n  if (compareKey && compareKey.includes('-20')) {\n    compareKey = compareKey.split('-')[0]; // \"Backup\"\n  }\n  \n  return {\n    json: {\n      ...item.json,\n      compareKey: compareKey  // теперь \"Backup\"\n    }\n  };\n});"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        800,
-        240
-      ],
-      "id": "f91a9ed6-3b50-422a-b5f6-5b8c6e1bb7cf",
-      "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  // Используем имя workflow\n  const compareKey = item.json.name; // \"Backup\"\n  \n  return {\n    json: {\n      ...item.json,\n      compareKey: compareKey,  // \"Backup\"\n      source: 'n8n'\n    }\n  };\n});"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        800,
-        432
-      ],
-      "id": "a1210590-1070-44c2-96fa-3e011d0d1cf3",
-      "name": "Code in JavaScript1"
     },
     {
       "parameters": {
@@ -448,28 +458,23 @@
       ],
       "id": "d522b9ae-4309-4c31-9928-309819154e4d",
       "name": "Edit a file2",
-      "webhookId": "0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588"
+      "webhookId": "0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
         "method": "PUT",
         "url": "={{ $json.url }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "=Authorization",
-              "value": "Bearer [REDACTED_GITHUB_TOKEN]"
-            },
-            {
-              "name": "Accept",
-              "value": "application/vnd.github.v3+json"
-            }
-          ]
-        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubOAuth2Api",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"message\": \"{{ $json.message }}\",\n  \"content\": \"{{ $json.content }}\",\n  \"sha\": \"{{ $json.sha }}\",\n  \"branch\": \"main\"\n}",
+        "jsonBody": "={\n  \"message\": \"{{ $json.message }}\",\n  \"content\": \"{{ $json.content }}\",\n  \"sha\": \"{{ $json.sha }}\",\n  \"branch\": \"{{ $json.branch }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -479,7 +484,17 @@
         160
       ],
       "id": "1e3f6da7-2cf9-4f53-9cb2-ad47e2bc0624",
-      "name": "HTTP Request"
+      "name": "HTTP Request",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        },
+        "httpMultipleHeadersAuth": {
+          "id": "oZrSE4MgNK3sKXlJ",
+          "name": "Multiple Headers Auth account"
+        }
+      }
     },
     {
       "parameters": {
@@ -509,11 +524,17 @@
       ],
       "id": "068e0d62-3790-4c78-b6f9-146ee5b2a024",
       "name": "Create a file",
-      "webhookId": "c98a77b5-5794-46ef-b2cd-875004cfa71e"
+      "webhookId": "c98a77b5-5794-46ef-b2cd-875004cfa71e",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first().json;\n\n// Кодируем path для URL\nconst encodedPath = encodeURIComponent(item.path);\n// \"Backup-2026-03-05T15:48:25.023Z\" -> \"Backup-2026-03-05T15%3A48%3A25.023Z\"\n\nconst cleanUrl = `https://api.github.com/repos/MarinaKirzner/test_backup/contents/${encodedPath}`;\n\n// Подготавливаем данные\nconst workflowData = {\n    id: item.id,\n    name: item.name,\n    active: item.active,\n    isArchived: item.isArchived,\n    updatedAt: item.updatedAt,\n    createdAt: item.createdAt,\n    nodes: item.nodes,\n    connections: item.connections\n};\n\nconst jsonString = JSON.stringify(workflowData, null, 2);\nconst base64Content = Buffer.from(jsonString).toString('base64');\n\nreturn [{\n    json: {\n        url: cleanUrl,\n        message: `Update workflow ${item.name}`,\n        content: base64Content,\n        sha: item.sha,\n        branch: 'main'\n    }\n}];"
+        "jsCode": "const item = $input.first().json;\n\n// ========================\n// 1. Функция для удаления/маскировки токенов\n// ========================\nfunction redactTokens(obj, seen = new WeakSet()) {\n    if (obj === null || obj === undefined) return obj;\n    if (typeof obj !== 'object') {\n        if (typeof obj === 'string') {\n            if (obj.includes('ghp_')) {\n                console.log('🔴 НАЙДЕН ТОКЕН, заменяем');\n                return obj.replace(/ghp_[a-zA-Z0-9_]+/g, '[REDACTED]');\n            }\n            if (obj.includes('github_pat_')) {\n                console.log('🔴 НАЙДЕН ТОКЕН, заменяем');\n                return obj.replace(/github_pat_[a-zA-Z0-9_]+/g, '[REDACTED]');\n            }\n        }\n        return obj;\n    }\n    \n    if (seen.has(obj)) return '[Circular]';\n    seen.add(obj);\n    \n    if (Array.isArray(obj)) {\n        return obj.map(item => redactTokens(item, seen));\n    }\n    \n    const cleaned = {};\n    for (const [key, value] of Object.entries(obj)) {\n        const sensitiveKeys = ['githubToken', 'token', 'authorization', 'apiKey', \n                               'password', 'secret', 'accessToken', 'credentials',\n                               'Authorization', 'Bearer'];\n        if (sensitiveKeys.includes(key)) {\n            console.log(`⚠️ Удалено секретное поле: ${key}`);\n            continue;\n        }\n        cleaned[key] = redactTokens(value, seen);\n    }\n    return cleaned;\n}\n\n// ========================\n// 2. Применяем очистку\n// ========================\nconsole.log('=== НАЧАЛО ОБРАБОТКИ ===');\nconsole.log('Path:', item.path);\nconsole.log('SHA:', item.sha);\n\nconst cleanedItem = redactTokens(item);\n\n// ========================\n// 3. Подготавливаем данные для сохранения\n// ========================\nconst workflowData = {\n    id: cleanedItem.id,\n    name: cleanedItem.name,\n    active: cleanedItem.active,\n    isArchived: cleanedItem.isArchived,\n    updatedAt: cleanedItem.updatedAt,\n    createdAt: cleanedItem.createdAt,\n    nodes: cleanedItem.nodes,\n    connections: cleanedItem.connections\n};\n\n// ========================\n// 4. Конвертируем в JSON и Base64\n// ========================\nconst jsonString = JSON.stringify(workflowData, null, 2);\nconst base64Content = Buffer.from(jsonString).toString('base64');\n\nconsole.log('JSON размер:', jsonString.length, 'байт');\nconsole.log('Base64 размер:', base64Content.length, 'байт');\n\n// ========================\n// 5. ПРОВЕРКА: ищем токены\n// ========================\nconsole.log('\\n=== ПРОВЕРКА БЕЗОПАСНОСТИ ===');\nconst decodedForCheck = Buffer.from(base64Content, 'base64').toString('utf-8');\n\nconst hasGhpToken = decodedForCheck.includes('ghp_');\nconst hasGithubPat = decodedForCheck.includes('github_pat_');\n\n// Если найден токен - ошибка\nif (hasGhpToken || hasGithubPat) {\n    console.error('❌ ОШИБКА: В данных обнаружен токен!');\n    if (hasGhpToken) {\n        const index = decodedForCheck.indexOf('ghp_');\n        const start = Math.max(0, index - 50);\n        const end = Math.min(decodedForCheck.length, index + 70);\n        console.error(`Контекст: ...${decodedForCheck.substring(start, end)}...`);\n    }\n    throw new Error('Нельзя сохранять токены в репозиторий');\n}\n\nconsole.log('✅ ПРОВЕРКА ПРОЙДЕНА: токенов не обнаружено');\n\n// ========================\n// 6. Формируем URL\n// ========================\nconst encodedPath = encodeURIComponent(cleanedItem.path);\nconst cleanUrl = `https://api.github.com/repos/MarinaKirzner/test_backup/contents/${encodedPath}`;\n\nconsole.log('\\n=== ИТОГОВЫЕ ДАННЫЕ ===');\nconsole.log('URL:', cleanUrl);\nconsole.log('SHA:', cleanedItem.sha);\n\n// ========================\n// 7. Возвращаем результат\n// ========================\nreturn [{\n    json: {\n        url: cleanUrl,\n        message: `Update workflow ${cleanedItem.name}`,\n        content: base64Content,\n        sha: cleanedItem.sha,\n        branch: 'main'\n    }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -523,6 +544,66 @@
       ],
       "id": "9c7fe7ae-2c6a-4629-a507-458013053665",
       "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.github.com/repos/MarinaKirzner/test_backup/contents/Backup-2026-03-05T15%3A48%3A25.023Z",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": \"{{ $json.message }}\",\n  \"content\": \"{{ $json.content }}\",\n  \"sha\": \"{{ $json.sha }}\",\n  \"branch\": \"{{ $json.branch }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1488,
+        400
+      ],
+      "id": "40e02dcf-d34e-41e8-9573-3c35e3216360",
+      "name": "HTTP Request1",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "mjCf6diS5cDUHsHs",
+          "name": "GitHub account"
+        },
+        "httpMultipleHeadersAuth": {
+          "id": "oZrSE4MgNK3sKXlJ",
+          "name": "Multiple Headers Auth account"
+        },
+        "httpHeaderAuth": {
+          "id": "A3k14sNGCrkGgKQq",
+          "name": "GitHub_Auth_Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  // Извлекаем только имя без даты\n  let compareKey = item.json.name;\n  if (compareKey && compareKey.includes('-20')) {\n    compareKey = compareKey.split('-')[0]; // \"Backup\"\n  }\n  \n  return {\n    json: {\n      ...item.json,\n      compareKey: compareKey  // теперь \"Backup\"\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        240
+      ],
+      "id": "f91a9ed6-3b50-422a-b5f6-5b8c6e1bb7cf",
+      "name": "Code in GitHub"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  // Используем имя workflow\n  const compareKey = item.json.name; // \"Backup\"\n  \n  return {\n    json: {\n      ...item.json,\n      compareKey: compareKey,  // \"Backup\"\n      source: 'n8n'\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        432
+      ],
+      "id": "a1210590-1070-44c2-96fa-3e011d0d1cf3",
+      "name": "Code in n8n"
     }
   ],
   "connections": {
@@ -674,7 +755,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Code in GitHub",
             "type": "main",
             "index": 0
           }
@@ -703,7 +784,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript1",
+            "node": "Code in n8n",
             "type": "main",
             "index": 0
           }
@@ -715,28 +796,6 @@
         [
           {
             "node": "Code in JavaScript2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code in JavaScript1": {
-      "main": [
-        [
-          {
-            "node": "Merge1",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Code in JavaScript": {
-      "main": [
-        [
-          {
-            "node": "Merge1",
             "type": "main",
             "index": 0
           }
@@ -763,9 +822,31 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "HTTP Request1",
             "type": "main",
             "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in GitHub": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in n8n": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
           }
         ]
       ]
