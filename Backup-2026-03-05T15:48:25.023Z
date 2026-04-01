@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T13:43:45.724Z",
+  "updatedAt": "2026-04-01T13:45:45.030Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -244,7 +244,7 @@
     {
       "parameters": {
         "method": "PUT",
-        "url": "=https://api.github.com/repos/MarinaKirzner/test_backup/contents/Backup-2026-03-05T15%3A48%3A25.023Z",
+        "url": "={{ $json.url }}",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
