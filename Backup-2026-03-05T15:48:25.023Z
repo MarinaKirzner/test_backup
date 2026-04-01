@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:22:59.844Z",
+  "updatedAt": "2026-04-01T14:23:40.791Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -303,6 +303,19 @@
       ],
       "id": "a1210590-1070-44c2-96fa-3e011d0d1cf3",
       "name": "Code in n8n"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1696,
+        112
+      ],
+      "id": "1eb70fbe-a496-4a8d-a1d4-41dd7dc71ddd",
+      "name": "Code in JavaScript"
     }
   ],
   "connections": {
@@ -435,7 +448,13 @@
     },
     "HTTP Request1": {
       "main": [
-        []
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   }
