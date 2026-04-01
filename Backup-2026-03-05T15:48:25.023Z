@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:11:11.279Z",
+  "updatedAt": "2026-04-01T14:14:51.797Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -163,13 +163,13 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
-          "value": "https://github.com/MarinaKirzner/",
+          "value": "https://github.com/MarinaKirzner/test_backup",
           "mode": "url"
         },
         "repository": {
           "__rl": true,
-          "value": "https://github.com/MarinaKirzner/test_backup/",
-          "mode": "url"
+          "mode": "list",
+          "value": "test_backup"
         },
         "filePath": "={{ $json.content.path.replaceAll(':', '%') }}",
         "fileContent": "={{ $json.content }}",
