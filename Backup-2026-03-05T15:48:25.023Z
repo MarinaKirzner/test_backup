@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:04:28.888Z",
+  "updatedAt": "2026-04-01T14:11:11.279Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -172,8 +172,8 @@
           "mode": "url"
         },
         "filePath": "={{ $json.content.path.replaceAll(':', '%') }}",
-        "fileContent": "={{ $json.commit }}",
-        "commitMessage": "=Update workflow {{ $json.commit.message }}"
+        "fileContent": "={{ $json.content }}",
+        "commitMessage": "=Update workflow {{ $json.content.name }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
