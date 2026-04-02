@@ -3,7 +3,7 @@
   "name": "Backup",
   "active": false,
   "isArchived": false,
-  "updatedAt": "2026-04-01T14:25:21.400Z",
+  "updatedAt": "2026-04-02T09:47:04.541Z",
   "createdAt": "2026-03-25T15:04:12.423Z",
   "nodes": [
     {
@@ -107,8 +107,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1840,
-        304
+        1920,
+        288
       ],
       "id": "0afeb133-daeb-4738-b041-3cf301ea5fcd",
       "name": "If2"
@@ -258,7 +258,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1488,
+        1472,
         320
       ],
       "id": "40e02dcf-d34e-41e8-9573-3c35e3216360",
@@ -357,20 +357,8 @@
     },
     "If2": {
       "main": [
-        [
-          {
-            "node": "Edit a file2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Create a file",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [],
+        []
       ]
     },
     "Get many workflows2": {
