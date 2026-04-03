@@ -1,0 +1,385 @@
+{
+  "id": "Ejx7iPN4k2jRU0Kr",
+  "name": "Backup",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "272457ed-c058-434b-aaf8-1145e8e5f08d",
+      "name": "Formate Date"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "21409b48-f17d-4688-896f-b5aa33bd18c5",
+      "name": "Execute workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2c9f1c75-5a77-423d-868a-095244969934",
+              "name": "formattedDate",
+              "value": "={{ $json.formattedDate }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        0
+      ],
+      "id": "0bbd05aa-1fab-4c1f-a21d-71da4aeba7ec",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "138e9660-1b6b-4234-9ae8-28ff7e91a02e",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        0
+      ],
+      "id": "2b3e2a28-488b-4fb6-a670-393ea39ce86c",
+      "name": "List files",
+      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        0
+      ],
+      "id": "d997f76e-5ad0-4906-9c06-50954968002d",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "binaryPropertyName": "=data",
+        "options": {
+          "fileName": "={{ $json.name }}-{{ $json.updatedAt }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        320
+      ],
+      "id": "897a8a0f-72a7-442f-a2f3-465fc5919c07",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "eba01505-8f94-48be-a96e-28b4fca57a59",
+              "leftValue": "={{ $binary.data.fileName.split() }}",
+              "rightValue": "={{ $binary.data.fileName }}",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        704,
+        320
+      ],
+      "id": "512464f1-3c04-4506-8b37-d521ea230178",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        320
+      ],
+      "id": "3527945d-6a6f-4c01-8780-965c46c495dc",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        },
+        "filePath": "={{ $binary.data.fileName }}",
+        "binaryData": true,
+        "commitMessage": "=backUp"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        912,
+        224
+      ],
+      "id": "c5aa47b4-efef-401f-9e06-b41ececfc78a",
+      "name": "Edit a file",
+      "webhookId": "0aa6d6a2-f4b3-4dd6-a2be-87cfad9f1588"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/MarinaKirzner/test_backup",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        },
+        "filePath": "={{ $binary.data.fileName }}",
+        "binaryData": true,
+        "commitMessage": "=backUp"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        912,
+        416
+      ],
+      "id": "bf589403-a44f-4ead-920a-f40b21e04733",
+      "name": "Create a file",
+      "webhookId": "c98a77b5-5794-46ef-b2cd-875004cfa71e"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "workflowId": {
+          "__rl": true,
+          "value": "FU3iG8s0m18wz8nC",
+          "mode": "list",
+          "cachedResultName": "Backup copy copy (#FU3iG8s0m18wz8nC)"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        0
+      ],
+      "id": "15544c85-dcc6-4688-a8f0-643d42459d71",
+      "name": "Delete a workflow"
+    }
+  ],
+  "connections": {
+    "Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formate Date": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "List files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Formate Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List files": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Delete a workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a workflow": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-02T14:09:21.087Z",
+  "updatedAt": "2026-04-03T14:16:59.433Z"
+}
