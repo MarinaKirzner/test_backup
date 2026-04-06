@@ -1,6 +1,6 @@
 {
   "id": "H9TWTpLrXLckTv0k",
-  "name": "GitHub_Backup",
+  "name": "GitHub_Backup.json",
   "active": false,
   "nodes": [
     {
@@ -91,7 +91,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Получаем текущий элемент (один из списка)\nconst item = $input.item.json;\n\n// n8nData — это данные воркфлоу из ветки n8n (обычно Input 2 в Merge)\n// gitHubData — это данные из ветки GitHub (Input 1)\n// В зависимости от настроек Merge, они могут быть в одном объекте.\n// Предположим, Merge объединил их по совпадению или просто передает объект.\n\nconst n8nData = item; // Текущий воркфлоу из списка n8n\nconst gitHubSha = item.sha; // Если Merge нашел совпадение, тут будет SHA\nconst gitHubPath = item.path;\n\nif (!n8nData.nodes) {\n    // Пропускаем, если это \"пустой\" элемент или только данные GitHub без пары из n8n\n    return []; \n}\n\n// Формируем структуру воркфлоу\nconst updatedWorkflow = {\n    id: n8nData.id,\n    name: n8nData.name,\n    active: n8nData.active,\n    nodes: n8nData.nodes,\n    connections: n8nData.connections,\n    createdAt: n8nData.createdAt || new Date().toISOString(),\n    updatedAt: new Date().toISOString()\n};\n\nlet filePath = gitHubPath || `${n8nData.name}.json`;\nlet fileExists = !!gitHubSha;\n\n// Кодируем путь\nconst encodedPath = encodeURIComponent(filePath);\nconst apiUrl = `https://api.github.com/repos/MarinaKirzner/test_backup/contents/${encodedPath}`;\n\n// Конвертируем в base64\nconst jsonString = JSON.stringify(updatedWorkflow, null, 2);\nconst base64Content = Buffer.from(jsonString).toString('base64');\n\nreturn {\n    json: {\n        fileExists: fileExists,\n        url: apiUrl,\n        message: fileExists ? `Update ${n8nData.name}` : `Create backup of ${n8nData.name}`,\n        content: base64Content,\n        sha: gitHubSha || null,\n        branch: 'main',\n        workflowName: n8nData.name\n    }\n};"
+        "jsCode": "// В режиме \"Run Once for Each Item\" n8n сам прогонит этот код для каждого воркфлоу\nconst data = $input.item.json;\n\nconst updatedWorkflow = {\n    id: data.id,\n    name: data.name,\n    active: data.active,\n    nodes: data.nodes,\n    connections: data.connections,\n    createdAt: data.createdAt,\n    updatedAt: new Date().toISOString()\n};\n\n// Если файла нет на Гитхабе, берем имя воркфлоу + дату\nconst fileName = data.path || `${data.name}-${new Date().toISOString().split('T')[0]}.json`;\nconst base64Content = Buffer.from(JSON.stringify(updatedWorkflow, null, 2)).toString('base64');\n\nreturn {\n    fileExists: !!data.sha,\n    url: `https://api.github.com/repos/MarinaKirzner/test_backup/contents/${encodeURIComponent(fileName)}`,\n    message: data.sha ? `Update ${data.name}` : `Create backup of ${data.name}`,\n    content: base64Content,\n    sha: data.sha || null, // Передаем SHA только если он есть\n    branch: 'main'\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -296,5 +296,5 @@
     }
   },
   "createdAt": "2026-04-02T14:14:52.049Z",
-  "updatedAt": "2026-04-06T15:11:03.444Z"
+  "updatedAt": "2026-04-06T15:18:58.494Z"
 }
