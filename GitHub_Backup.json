@@ -1,0 +1,300 @@
+{
+  "id": "H9TWTpLrXLckTv0k",
+  "name": "GitHub_Backup",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2352,
+        672
+      ],
+      "id": "a1fe6dd1-6f6a-4535-ae7e-2c55e4fdc55e",
+      "name": "Execute workflow",
+      "retryOnFail": false,
+      "executeOnce": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -1952,
+        672
+      ],
+      "id": "1fedd068-ca5c-4165-9869-3670163e0439",
+      "name": "Formate Date"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -2144,
+        672
+      ],
+      "id": "9513c265-2422-4fb4-9cb2-ba526591976c",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -1728,
+        768
+      ],
+      "id": "6fa4dd56-3180-48fb-8603-2282f299dd06",
+      "name": "Get many workflows",
+      "credentials": {
+        "n8nApi": {
+          "id": "mjQM1NHk8oj0pSNR",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "compareKey",
+              "field2": "compareKey"
+            }
+          ]
+        },
+        "joinMode": "enrichInput2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1248,
+        656
+      ],
+      "id": "de197051-b51e-4a8e-8af5-1c24517f3b36",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Получаем текущий элемент (один из списка)\nconst item = $input.item.json;\n\n// n8nData — это данные воркфлоу из ветки n8n (обычно Input 2 в Merge)\n// gitHubData — это данные из ветки GitHub (Input 1)\n// В зависимости от настроек Merge, они могут быть в одном объекте.\n// Предположим, Merge объединил их по совпадению или просто передает объект.\n\nconst n8nData = item; // Текущий воркфлоу из списка n8n\nconst gitHubSha = item.sha; // Если Merge нашел совпадение, тут будет SHA\nconst gitHubPath = item.path;\n\nif (!n8nData.nodes) {\n    // Пропускаем, если это \"пустой\" элемент или только данные GitHub без пары из n8n\n    return []; \n}\n\n// Формируем структуру воркфлоу\nconst updatedWorkflow = {\n    id: n8nData.id,\n    name: n8nData.name,\n    active: n8nData.active,\n    nodes: n8nData.nodes,\n    connections: n8nData.connections,\n    createdAt: n8nData.createdAt || new Date().toISOString(),\n    updatedAt: new Date().toISOString()\n};\n\nlet filePath = gitHubPath || `${n8nData.name}.json`;\nlet fileExists = !!gitHubSha;\n\n// Кодируем путь\nconst encodedPath = encodeURIComponent(filePath);\nconst apiUrl = `https://api.github.com/repos/MarinaKirzner/test_backup/contents/${encodedPath}`;\n\n// Конвертируем в base64\nconst jsonString = JSON.stringify(updatedWorkflow, null, 2);\nconst base64Content = Buffer.from(jsonString).toString('base64');\n\nreturn {\n    json: {\n        fileExists: fileExists,\n        url: apiUrl,\n        message: fileExists ? `Update ${n8nData.name}` : `Create backup of ${n8nData.name}`,\n        content: base64Content,\n        sha: gitHubSha || null,\n        branch: 'main',\n        workflowName: n8nData.name\n    }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1040,
+        656
+      ],
+      "id": "44554014-53f5-4d7f-b88f-20d78d45d641",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $json.url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": \"{{ $json.message }}\",\n  \"content\": \"{{ $json.content }}\",\n  \"sha\": \"{{ $json.sha }}\",\n  \"branch\": \"{{ $json.branch }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -816,
+        656
+      ],
+      "id": "bd14ab15-a9ee-48f9-82e1-f1e0fb5fa832",
+      "name": "HTTP Request",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "RJf06z2ILvlW8fzd",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n    let name = item.json.name;\n    let compareKey = name;\n\n    // Если в имени есть дата (например, после дефиса начинается 2026...)\n    // Улучшенная логика: отрезаем всё, что после последнего дефиса, если там дата\n    if (name.includes('-20')) {\n        compareKey = name.split('-20')[0].trim();\n    } else {\n        // Если даты нет, просто убираем .json для чистоты сравнения\n        compareKey = name.replace('.json', '');\n    }\n\n    return {\n        json: {\n            ...item.json,\n            compareKey: compareKey\n        }\n    };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1504,
+        576
+      ],
+      "id": "cc5e785a-b6e9-48d1-b576-31b52e9e98a5",
+      "name": "Code in GitHub1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n    let name = item.json.name;\n    let compareKey = name;\n\n    // Если в имени есть дата (например, после дефиса начинается 2026...)\n    // Улучшенная логика: отрезаем всё, что после последнего дефиса, если там дата\n    if (name.includes('-20')) {\n        compareKey = name.split('-20')[0].trim();\n    } else {\n        // Если даты нет, просто убираем .json для чистоты сравнения\n        compareKey = name.replace('.json', '');\n    }\n\n    return {\n        json: {\n            ...item.json,\n            compareKey: compareKey\n        }\n    };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1504,
+        768
+      ],
+      "id": "e4f13d0c-b0d4-442a-8db2-484611bc5140",
+      "name": "Code in n8n1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "MarinaKirzner",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "test_backup",
+          "mode": "list",
+          "cachedResultName": "test_backup",
+          "cachedResultUrl": "https://github.com/MarinaKirzner/test_backup"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -1728,
+        576
+      ],
+      "id": "4beac135-77e9-4df4-8284-f0a3a4274536",
+      "name": "List files1",
+      "webhookId": "a3984118-f232-4eee-9975-b1998cba2bb9",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "RJf06z2ILvlW8fzd",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formate Date": {
+      "main": [
+        [
+          {
+            "node": "Get many workflows",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "List files1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Formate Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many workflows": {
+      "main": [
+        [
+          {
+            "node": "Code in n8n1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in GitHub1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in n8n1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "List files1": {
+      "main": [
+        [
+          {
+            "node": "Code in GitHub1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-02T14:14:52.049Z",
+  "updatedAt": "2026-04-06T15:11:03.444Z"
+}
