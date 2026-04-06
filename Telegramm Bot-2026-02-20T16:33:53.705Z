@@ -1,10 +1,7 @@
 {
-  "id": "LJHX1TYSTB96HYt7",
+  "id": "LiMztFZFXR7viEYi",
   "name": "Telegramm Bot",
-  "active": false,
-  "isArchived": false,
-  "updatedAt": "2026-04-02T09:58:19.295Z",
-  "createdAt": "2026-04-02T09:58:19.295Z",
+  "active": true,
   "nodes": [
     {
       "parameters": {
@@ -19,16 +16,22 @@
         0,
         0
       ],
-      "id": "33c9c3d9-f042-41eb-b768-13200e61d784",
+      "id": "65905537-d663-49b0-8921-d2022ab8d971",
       "name": "Telegram Trigger",
-      "webhookId": "0b9d117c-bfc8-4747-9025-4b5b974e5e48"
+      "webhookId": "0b9d117c-bfc8-4747-9025-4b5b974e5e48",
+      "credentials": {
+        "telegramApi": {
+          "id": "1PYp8XmzThHYTqR5",
+          "name": "Telegram account (AI_bot_2)"
+        }
+      }
     },
     {
       "parameters": {
         "promptType": "define",
         "text": "={{ $json.message.text }}",
         "options": {
-          "systemMessage": "=##Overview\nYou are a helpful assistant. Find information on the issue online using the correct tool and provide a detailed answer with links to sources.\n\n##Tools\n- Tavily: Use this tool to search the web"
+          "systemMessage": "=##Overview\nYou are a helpful assistant. Find information on the issue online using the correct tool and provide a detailed answer with links to sources.\n\n##Tools\n- Tawili: Use this tool to search the internet and retrieve data."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -37,7 +40,7 @@
         240,
         0
       ],
-      "id": "25c3b448-24ff-4191-82cc-5507acdd217a",
+      "id": "b33efeb4-5f96-4361-a279-e125dddb0c62",
       "name": "AI Agent"
     },
     {
@@ -52,7 +55,7 @@
         272,
         224
       ],
-      "id": "a56a0d55-d1b8-4b25-8831-49192a16f998",
+      "id": "d6043b9f-0c6d-414d-bcd2-da9436a1f2e3",
       "name": "Simple Memory"
     },
     {
@@ -67,12 +70,19 @@
         608,
         0
       ],
-      "id": "0ef3cd6b-72eb-42a2-a102-58691e0d8cc9",
+      "id": "feef7996-69d3-4509-92cc-c1709edacf62",
       "name": "Send a text message",
-      "webhookId": "de48b9a8-2d68-4b39-9433-d1d06043a83d"
+      "webhookId": "de48b9a8-2d68-4b39-9433-d1d06043a83d",
+      "credentials": {
+        "telegramApi": {
+          "id": "1PYp8XmzThHYTqR5",
+          "name": "Telegram account (AI_bot_2)"
+        }
+      }
     },
     {
       "parameters": {
+        "model": "openai/gpt-4o-mini",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
@@ -81,8 +91,14 @@
         96,
         208
       ],
-      "id": "d6a11294-be94-4ffb-a7eb-b1a088ad5b5c",
-      "name": "OpenRouter Chat Model"
+      "id": "74e27807-03f0-478d-bce4-dca685f2ef6a",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "AvCVDPV2dTeeVHkM",
+          "name": "OpenRouter account"
+        }
+      }
     },
     {
       "parameters": {
@@ -99,16 +115,16 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"api-key\": \"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\",\n  \"query\": \"{searchTerm}\",\n  \"search_depth\": \"basic\"\n}",
+        "jsonBody": "{\n  \"api-key\": \"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\",\n  \"query\": \"{searchTerm}\",\n  \"search_depth\": \"basic\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.4,
       "position": [
-        480,
+        448,
         208
       ],
-      "id": "d06b1d8e-d392-4176-bec0-fc7596f9eb5c",
+      "id": "b4d56f18-7e13-4bde-bbc9-7d2904ba20ed",
       "name": "Tavily"
     }
   ],
@@ -168,5 +184,7 @@
         ]
       ]
     }
-  }
+  },
+  "createdAt": "2026-04-03T08:46:05.819Z",
+  "updatedAt": "2026-04-06T14:24:57.777Z"
 }
