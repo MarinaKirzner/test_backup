@@ -1,7 +1,4 @@
 {
-  "id": "LiMztFZFXR7viEYi",
-  "name": "Telegramm Bot",
-  "active": true,
   "nodes": [
     {
       "parameters": {
@@ -185,11 +182,6 @@
       ]
     }
   },
-  "settings": {
-    "executionOrder": "v1",
-    "binaryMode": "separate"
-  },
-  "staticData": null,
-  "createdAt": "2026-04-03T08:46:05.819Z",
-  "updatedAt": "2026-04-07T14:30:15.296Z"
+  "name": "Telegramm Bot",
+  "updatedAt": "2026-04-07T14:42:40.857Z"
 }
