@@ -1,6 +1,6 @@
 {
   "id": "H9TWTpLrXLckTv0k",
-  "name": "GitHub_Backup",
+  "name": "GitHub_Backup-2026-04-07.json",
   "active": false,
   "nodes": [
     {
@@ -108,12 +108,8 @@
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "githubOAuth2Api",
         "sendBody": true,
-        "specifyBody": "={{ $json.githubBody }}",
-        "bodyParameters": {
-          "parameters": [
-            {}
-          ]
-        },
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.githubBody }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -305,5 +301,5 @@
   },
   "staticData": null,
   "createdAt": "2026-04-02T14:14:52.049Z",
-  "updatedAt": "2026-04-07T14:20:02.884Z"
+  "updatedAt": "2026-04-07T14:23:47.271Z"
 }
